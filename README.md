@@ -26,21 +26,24 @@ Skills activate automatically when Claude detects relevant context (language, fr
 
 ## Installation
 
-### As a Claude Code Plugin
+### Quick Install
 
 ```bash
-# Link for development (edits take effect immediately)
-ln -s /path/to/hub-guide ~/.claude/plugins/hub-guide
+# Clone
+git clone https://github.com/asepharyana/asepharyana-hub-hub-guide.git
+cd asepharyana-hub-hub-guide
 
-# Or copy
-cp -r /path/to/hub-guide ~/.claude/plugins/hub-guide
-```
+# Copy all 26 skills (recommended)
+./install.sh
 
-### Manual Install (skills only)
+# Or symlink (edits in this repo are live)
+./install.sh --link
 
-```bash
-# Copy individual skills
-cp -r skills/<skill-name> ~/.claude/skills/<skill-name>
+# Install only specific skills
+./install.sh clean-code testing docker
+
+# Configure hooks (auto-detect project type on session start)
+./setup-hooks.sh
 ```
 
 ## Usage
