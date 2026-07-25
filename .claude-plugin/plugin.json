@@ -1,0 +1,11 @@
+{
+  "name": "hub-guide",
+  "version": "0.2.0",
+  "description": "Comprehensive programming best-practice guide for all situations — monorepo, standalone, all languages and frameworks",
+  "author": {
+    "name": "Asep Haryana Saputra",
+    "email": "asepharyana@users.noreply.github.com"
+  },
+  "hooks": "./hooks/hooks.json",
+  "keywords": ["best-practice", "clean-code", "engineering-guide", "programming-standards", "architecture"]
+}

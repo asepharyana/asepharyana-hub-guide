@@ -1,6 +1,9 @@
-# Hub Guide — Asepharyana Hub Monorepo
+---
+name: hub-guide
+description: Guide for the Asepharyana Hub monorepo — submodule workflow, infrastructure stack (Traefik, Dapr, NATS, Redis), CI/CD pipelines, adding new services, and debugging tips. Use when working in the asepharyana-hub monorepo, managing submodules, dealing with Docker/infra setup, or whenever the user asks about "hub monorepo," "submodules," "Traefik," "Dapr," "NATS," "infrastructure," or "adding a new service."
+---
 
-Guide for navigating and working with the Asepharyana Hub monorepo.
+# Hub Guide — Asepharyana Hub Monorepo
 
 ## Submodule Workflow
 
