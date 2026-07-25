@@ -1,77 +1,74 @@
 #!/bin/bash
-# hub-guide: detect project type and suggest relevant skills
-# Runs at SessionStart to prime best-practice skills
+# hub-guide: load best-practice skills at session start
+set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 PROJECT_DIR="$(pwd)"
-SKILLS=""
+SKILL_NAMES=""
 
 # Helper: check if a package.json field contains a dependency name
-has_dep() {
-  local name="$1"
-  grep -q "\"$name\"" package.json 2>/dev/null
+has_dep() { local n="$1"; grep -q "\"$n\"" package.json 2>/dev/null; }
+
+# --- project detection ---
+if [ -f "pnpm-workspace.yaml" ] || [ -f "lerna.json" ] || [ -f "nx.json" ] || [ -f "rush.json" ] || [ -f "turborepo.json" ]; then
+  SKILL_NAMES="$SKILL_NAMES, monorepo"
+fi
+if [ -f "tsconfig.json" ] || [ -f "jsconfig.json" ]; then
+  SKILL_NAMES="$SKILL_NAMES, typescript"
+  if has_dep "next";             then SKILL_NAMES="$SKILL_NAMES, nextjs"; fi
+  if has_dep "elysia";           then SKILL_NAMES="$SKILL_NAMES, elysiajs"; fi
+  if has_dep "hono";             then SKILL_NAMES="$SKILL_NAMES, hono-backend"; fi
+  if has_dep "drizzle-orm";      then SKILL_NAMES="$SKILL_NAMES, drizzle-database"; fi
+fi
+if [ -f "vite.config.ts" ] || [ -f "vite.config.js" ] || has_dep "react" 2>/dev/null; then
+  case "$SKILL_NAMES" in *react-frontend*) ;; *) SKILL_NAMES="$SKILL_NAMES, react-frontend" ;; esac
+fi
+if [ -f "next.config.js" ] || [ -f "next.config.ts" ] || [ -f "next.config.mjs" ]; then
+  case "$SKILL_NAMES" in *nextjs*) ;; *) SKILL_NAMES="$SKILL_NAMES, nextjs" ;; esac
+fi
+if [ -f "pyproject.toml" ] || [ -f "setup.py" ] || [ -f "requirements.txt" ] || [ -f "Pipfile" ] || [ -f "poetry.lock" ] || [ -f "uv.lock" ]; then
+  SKILL_NAMES="$SKILL_NAMES, python"
+fi
+if [ -f "Cargo.toml" ]; then            SKILL_NAMES="$SKILL_NAMES, rust"; fi
+if [ -f "go.mod" ]; then                SKILL_NAMES="$SKILL_NAMES, go"; fi
+if [ -f "Dockerfile" ] || [ -f "docker-compose.yml" ] || [ -f "compose.yml" ] || ls Dockerfile.* 2>/dev/null | grep -q .; then
+  SKILL_NAMES="$SKILL_NAMES, docker"
+fi
+if [ -d ".github/workflows" ] || [ -f ".gitlab-ci.yml" ] || [ -f "Jenkinsfile" ] || [ -f "bitbucket-pipelines.yml" ]; then
+  SKILL_NAMES="$SKILL_NAMES, ci-cd"
+fi
+
+MANDATORY="engineering-principles clean-code clean-architecture testing error-handling security git-workflow api-design"
+SKILL_NAMES="${SKILL_NAMES#, }"
+
+# --- load skill content for context injection ---
+load_skill() {
+  local f="${PLUGIN_ROOT}/skills/${1}/SKILL.md"
+  [ -f "$f" ] && cat "$f" || echo "(skill $1 not found)"
 }
 
-# Monorepo indicators
-if [ -f "pnpm-workspace.yaml" ] || [ -f "lerna.json" ] || [ -f "nx.json" ] || [ -f "rush.json" ] || [ -f "turborepo.json" ]; then
-  SKILLS="$SKILLS, monorepo"
-fi
-
-# TypeScript / JavaScript
-if [ -f "tsconfig.json" ] || [ -f "jsconfig.json" ]; then
-  SKILLS="$SKILLS, typescript"
-  # Framework detection from package.json dependencies
-  if has_dep "next";    then SKILLS="$SKILLS, nextjs"; fi
-  if has_dep "elysia";  then SKILLS="$SKILLS, elysiajs"; fi
-  if has_dep "hono";    then SKILLS="$SKILLS, hono-backend"; fi
-  if has_dep "drizzle-orm"; then SKILLS="$SKILLS, drizzle-database"; fi
-fi
-
-# React (detect even without tsconfig)
-if [ -f "vite.config.ts" ] || [ -f "vite.config.js" ] || has_dep "react" 2>/dev/null; then
-  # avoid double-adding if already caught by typescript block
-  case "$SKILLS" in *react-frontend*) ;; *) SKILLS="$SKILLS, react-frontend" ;; esac
-fi
-
-# Next.js config file — catches JS-only projects too
-if [ -f "next.config.js" ] || [ -f "next.config.ts" ] || [ -f "next.config.mjs" ]; then
-  case "$SKILLS" in *nextjs*) ;; *) SKILLS="$SKILLS, nextjs" ;; esac
-fi
-
-# Python
-if [ -f "pyproject.toml" ] || [ -f "setup.py" ] || [ -f "setup.cfg" ] || [ -f "requirements.txt" ] || [ -f "Pipfile" ] || [ -f "poetry.lock" ] || [ -f "uv.lock" ]; then
-  SKILLS="$SKILLS, python"
-fi
-
-# Rust
-if [ -f "Cargo.toml" ]; then
-  SKILLS="$SKILLS, rust"
-fi
-
-# Go
-if [ -f "go.mod" ]; then
-  SKILLS="$SKILLS, go"
-fi
-
-# Docker
-if [ -f "Dockerfile" ] || [ -f "docker-compose.yml" ] || [ -f "compose.yml" ] || ls Dockerfile.* 2>/dev/null | grep -q .; then
-  SKILLS="$SKILLS, docker"
-fi
-
-# CI/CD
-if [ -d ".github/workflows" ] || [ -f ".gitlab-ci.yml" ] || [ -f "Jenkinsfile" ] || [ -f "bitbucket-pipelines.yml" ]; then
-  SKILLS="$SKILLS, ci-cd"
-fi
-
-# Always-active core skills (loaded every session)
-CORE="engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design"
-
-SKILLS="${SKILLS#, }"  # strip leading ", "
-
+# Output summary (visible in session)
 echo "📐 [hub-guide] detected: ${PROJECT_DIR}"
-echo "📐 [hub-guide] mandatory: ${CORE}"
-if [ -n "$SKILLS" ]; then
-  echo "📐 [hub-guide] project-specific: ${SKILLS}"
+echo "📐 mandatory: ${MANDATORY}"
+[ -n "$SKILL_NAMES" ] && echo "📐 active: ${SKILL_NAMES}"
+echo "📐 When in doubt — ask instead of assuming."
+
+# Inject full skill content into conversation context.
+# Everything printed here is visible to Claude at session start.
+echo ""
+echo "<hub-guide-skills>"
+
+for skill in $MANDATORY; do
+  echo "<skill name=\"${skill}\">"
+  load_skill "$skill"
+  echo "</skill>"
+done
+
+if [ -n "$SKILL_NAMES" ]; then
+  echo "<detected-skills>${SKILL_NAMES}</detected-skills>"
 fi
-echo "📐 [hub-guide] Apply these best-practice rules throughout this session."
-echo "📐 [hub-guide] When in doubt about intent or approach — ask instead of assuming."
-echo "📐 [hub-guide] All skills work regardless of your spoken language — they trigger from code context and project files, not just English keywords."
+echo "</hub-guide-skills>"
+echo ""
+echo "Skills above are loaded. Apply these best-practice rules throughout this session."
+echo "When in doubt about intent or approach — ask instead of assuming."
