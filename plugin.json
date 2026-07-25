@@ -1,0 +1,12 @@
+{
+  "name": "hub-guide",
+  "version": "0.1.0",
+  "description": "Guidance and reference for the Asepharyana Hub monorepo",
+  "author": "Asep Haryana Saputra",
+  "skills": {
+    "hub-guide": {
+      "name": "hub-guide",
+      "description": "Guides you through the Asepharyana Hub monorepo: architecture, submodules, infra stack, CI/CD, and how to add a new service"
+    }
+  }
+}
