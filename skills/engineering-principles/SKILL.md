@@ -1,6 +1,6 @@
 ---
 name: engineering-principles
-description: Foundational software engineering principles that apply across all languages, frameworks, and project types — correctness, simplicity, YAGNI, KISS, DRY, root-cause fixes, least astonishment, explicit over implicit, fail fast, and professional craftsmanship. This skill is a baseline: apply these principles to every code decision, review, and architecture discussion, regardless of language or framework. Engage proactively whenever writing, reviewing, or designing code — especially when the user's request seems to violate one of these fundamentals.
+description: Foundational software engineering principles that apply across all languages, frameworks, and project types — correctness, simplicity, YAGNI, KISS, DRY, root-cause fixes, least astonishment, explicit over implicit, fail fast, professional craftsmanship, and multi-agent orchestration for complex tasks. This skill is a baseline: apply these principles to every code decision, review, and architecture discussion, regardless of language or framework. Engage proactively whenever writing, reviewing, or designing code — especially when the user's request seems to violate one of these fundamentals. Also use when the user asks for "complex," "big," "multi-step," "comprehensive," "thorough," "parallel," "audit," "migrate," "research," or "large-scale" work — these trigger the Workflow orchestration principle (see §26).
 ---
 
 # Engineering Principles
@@ -211,3 +211,25 @@ When requirements are unclear, the user's intent is uncertain, or there are mult
 - **If you must assume, state your assumption explicitly** — "Assuming this is a server component since you mentioned API routes. Say so if you need it to be a client component."
 
 The goal: write code once, correctly, based on what the user actually wants — not what you guessed they wanted.
+
+## 26. Use Multi-Agent Workflows for Complex Tasks — Don't Go Solo
+
+When the user's request is complex, multi-step, or large in scope, **use the Workflow tool** to orchestrate parallel agents. Going solo on a complex task misses the benefits of independent verification and parallel execution.
+
+**Triggers — use Workflow when the task involves:**
+- **Multiple files or modules** that need simultaneous changes
+- **Review or audit** — fan out finders per file, adversarial verify findings
+- **Research or investigation** — sweep multiple angles in parallel
+- **Architecture or design** — judge panel with different approaches
+- **Migration or refactoring** — parallel transforms in isolated worktrees
+- **Any task you'd describe as "big," "complex," "thorough," or "comprehensive"**
+
+**Quality patterns to apply:**
+- **Adversarial verification** — after finding issues, spawn 3 skeptics to try to refute each finding. Kill findings that ≥majority refute.
+- **Multi-modal sweep** — parallel agents searching differently (by-content, by-entity, by-time, by-pattern).
+- **Completeness critic** — a final agent asking "what's missing?" to catch blind spots.
+- **Loop-until-dry** — for discovery tasks, keep going until consecutive rounds find nothing new.
+
+**Default to pipeline over barrier.** Pipeline lets item A verify while item B is still being reviewed — no wasted wall-clock time. Barriers (parallel() then parallel()) are only justified when the next stage genuinely needs ALL results from the prior stage (e.g., deduplication across all findings before expensive verification).
+
+**Don't over-engineer.** A workflow for a one-file fix is wasteful. Use Workflow for tasks that genuinely benefit from multiple perspectives or parallel execution. When in doubt, ask the user: "This looks complex — should I use a multi-agent workflow for thorough coverage?"
