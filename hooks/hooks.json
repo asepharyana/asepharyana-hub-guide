@@ -1,15 +1,19 @@
 {
   "hooks": {
     "SessionStart": [{
-      "type": "command",
-      "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/scripts/detect-project.sh\"",
-      "timeout": 10
+      "hooks": [{
+        "type": "command",
+        "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/scripts/detect-project.sh\"",
+        "timeout": 10
+      }]
     }],
     "PreToolUse": [{
       "matcher": "Write|Edit",
-      "type": "command",
-      "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/scripts/detect-file-type.sh\" \"$TOOL_INPUT\"",
-      "timeout": 10
+      "hooks": [{
+        "type": "command",
+        "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/scripts/detect-file-type.sh\" \"$TOOL_INPUT\"",
+        "timeout": 10
+      }]
     }]
   }
 }
