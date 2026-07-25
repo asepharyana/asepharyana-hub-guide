@@ -1,18 +1,9 @@
 {
   "hooks": {
-    "SessionStart": [{
+    "Stop": [{
       "hooks": [{
-        "type": "command",
-        "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/scripts/detect-project.sh\"",
-        "timeout": 10
-      }]
-    }],
-    "PreToolUse": [{
-      "matcher": "Write|Edit",
-      "hooks": [{
-        "type": "command",
-        "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/scripts/detect-file-type.sh\" \"$TOOL_INPUT\"",
-        "timeout": 10
+        "type": "prompt",
+        "prompt": "--- skill detect ---\nRead the user's prompt. Detect what language, framework, tool, or topic they are asking about. If it matches any hub-guide skill concept (see available skills), activate that skill's rules for your response.\n\nDetection is concept-based, not keyword-based — works regardless of what language the user speaks.\n---"
       }]
     }]
   }
