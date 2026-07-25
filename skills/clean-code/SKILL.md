@@ -1,6 +1,6 @@
 ---
 name: clean-code
-description: Apply Robert C. Martin's (Uncle Bob's) Clean Code, Clean Architecture, and Clean Craftsmanship principles when writing, reviewing, or refactoring code. Use this skill whenever the user asks to write new code of non-trivial size, refactor existing code, review code for quality, design a module or system boundary, write tests, or the user mentions clean-code concepts in any language. Also engage proactively from code quality signals — poor naming, long functions, deep nesting, unclear abstractions — regardless of spoken language. Detects from code context and project files — not dependent on specific language keywords.
+description: MANDATORY — always active. Clean Code principles: naming, functions, comments, formatting, error handling, classes. Apply to every session regardless of context. Use whenever the user writes code, reviews code, refactors, or mentions clean-code concepts in any language. Also engage proactively from code quality signals — poor naming, long functions, deep nesting, unclear abstractions. Works regardless of spoken language.
 ---
 
 # Clean Code

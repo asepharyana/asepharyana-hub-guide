@@ -68,7 +68,7 @@ CORE="engineering-principles, clean-code, clean-architecture, testing, error-han
 SKILLS="${SKILLS#, }"  # strip leading ", "
 
 echo "📐 [hub-guide] detected: ${PROJECT_DIR}"
-echo "📐 [hub-guide] core skills: ${CORE}"
+echo "📐 [hub-guide] mandatory: ${CORE}"
 if [ -n "$SKILLS" ]; then
   echo "📐 [hub-guide] project-specific: ${SKILLS}"
 fi
