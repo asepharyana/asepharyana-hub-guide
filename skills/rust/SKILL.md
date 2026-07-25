@@ -194,5 +194,6 @@ pub struct UserResponse {
 - ❌ `unsafe` without documented safety invariants
 - ❌ `Rc<RefCell<...>>` in async contexts — use `Arc<Mutex<...>>`
 - ❌ `Box<dyn Trait>` where generics work — `impl Trait` or generic param
-- ❌ Ignoring clippy warnings — run `clippy` before every commit
+- ❌ `#[allow(clippy::...)]` — never suppress warnings; fix the code instead. `too_many_arguments` means extract a struct. `type_complexity` means extract a type alias or refactor.
+- ❌ Ignoring clippy warnings — run `clippy` before every commit. `cargo clippy -- -D warnings` in CI.
 - ❌ `#[tokio::main]` on library code — only in binary entry points

@@ -246,3 +246,40 @@ Skills harus trigger berdasarkan **konsep**, **konteks kode**, dan **file projec
 - **Behavioral pattern > keyword.** User bilang "kode ini jelek, rapihin" → trigger clean-code. User bilang "tambahin validasi" → trigger error-handling + security.
 - **Tanya kalau ragu.** Kalau konteks gak cukup buat nentuin skill mana, tanya 1 pertanyaan pendek. Jangan asumsi.
 - Hook `detect-project.sh` udah otomatis deteksi dari file project — ini jalur utama activation, bukan cuma keyword matching.
+
+## 28. Never Suppress Lints — Fix the Code
+
+Linter, type checker, dan analyzer ada untuk menangkap bug sebelum produksi. **Jangan pernah matiin mereka dengan `#[allow]`, `// @ts-ignore`, `# noqa`, atau `// eslint-disable-next-line`** — itu mengakali alat yang dibuat untuk melindungi kamu.
+
+### What to do instead:
+- **Linter error** → perbaiki kodenya. Kalau kamu bisa suppress, kamu bisa fix.
+- **`clippy::too_many_arguments`** → extract parameter struct. Jangan `#[allow]`.
+- **`clippy::type_complexity`** → extract type alias. Jangan `#[allow]`.
+- **`@ts-ignore` / `@ts-expect-error`** → perbaiki type-nya. TypeScript strict mode harusnya gak perlu ini.
+- **`# noqa` (Python)** → perbaiki line length, import, atau kompleksitas.
+- **`eslint-disable-next-line`** → perbaiki pelanggarannya. Kalau rule-nya salah, nonaktifkan global dengan alasan.
+
+### Satu-satunya pengecualian:
+- **False positive dari linter** — tapi harus dibuktikan, bukan ditebak. Tambah komentar `// lint false positive: <reason>`.
+- **Generated code** — kode hasil generate (protobuf, OpenAPI client) bisa di-exclude via config, bukan inline suppress.
+- **Migration bertahap** — kalau codebase besar, suppress dulu di level project config, target hapus <30 hari. Bukan inline per-line yang numpuk.
+
+### Enforce in CI:
+```bash
+# Rust
+cargo clippy -- -D warnings
+
+# TypeScript
+tsc --noEmit --strict
+
+# Python
+ruff check --strict
+
+# Go
+go vet ./...
+
+# All
+git commit --no-verify  # only for emergencies, not routine
+```
+
+Lint yang di-skip adalah bug yang diundang. Kalau kamu bisa `#[allow]` itu, kamu juga bisa perbaiki itu.
