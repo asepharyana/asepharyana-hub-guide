@@ -67,11 +67,8 @@ CORE="engineering-principles, clean-code, clean-architecture, testing, error-han
 
 SKILLS="${SKILLS#, }"  # strip leading ", "
 
-echo "📐 [hub-guide] detected: ${PROJECT_DIR}"
-echo "📐 [hub-guide] core skills: ${CORE}"
+echo "📐 [hub-guide] ${PROJECT_DIR}"
+echo "📐 core: ${CORE}"
 if [ -n "$SKILLS" ]; then
-  echo "📐 [hub-guide] project-specific: ${SKILLS}"
+  echo "📐 active: ${SKILLS}"
 fi
-echo "📐 [hub-guide] Apply these best-practice rules throughout this session."
-echo "📐 [hub-guide] When in doubt about intent or approach — ask instead of assuming."
-echo "📐 [hub-guide] All skills work regardless of your spoken language — they trigger from code context and project files, not just English keywords."
