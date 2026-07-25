@@ -33,17 +33,11 @@ Skills activate automatically when Claude detects relevant context (language, fr
 git clone https://github.com/asepharyana/asepharyana-hub-hub-guide.git
 cd asepharyana-hub-hub-guide
 
-# Copy all 26 skills (recommended)
+# Install as one unit (recommended)
 ./install.sh
 
 # Or symlink (edits in this repo are live)
 ./install.sh --link
-
-# Install only specific skills
-./install.sh clean-code testing docker
-
-# Configure hooks (auto-detect project type on session start)
-./setup-hooks.sh
 ```
 
 ## Usage
