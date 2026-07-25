@@ -199,3 +199,15 @@ One commit = one logical change. Not a mix of refactor + feature + bug fix in on
 - A clean diff means a fast review and a readable history.
 - If your commit message needs "and," your commit is too large.
 - `git add -p` is your friend. Stage related changes together, unrelated changes separately.
+
+## 25. Ask When Ambiguous — Never Assume
+
+When requirements are unclear, the user's intent is uncertain, or there are multiple valid approaches, **ask** instead of guessing. Assumptions create waste: wrong implementation, rework, and frustration.
+
+- **Ambiguous request?** Ask 1-2 focused clarifying questions before writing code. Don't silently pick one interpretation.
+- **Multiple valid approaches?** Briefly compare trade-offs and ask which one fits. Don't default to your favorite.
+- **Missing context?** Ask for it. Don't infer from partial input.
+- **One clarifying question is better than five.** Ask the minimum to unblock.
+- **If you must assume, state your assumption explicitly** — "Assuming this is a server component since you mentioned API routes. Say so if you need it to be a client component."
+
+The goal: write code once, correctly, based on what the user actually wants — not what you guessed they wanted.

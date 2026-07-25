@@ -81,6 +81,13 @@ When the task calls for it, load:
 
 - **[references/catalog.md](references/catalog.md)** — Full GoF pattern catalog with code examples, real-world usage, modern alternatives, and "when to NOT use" guidance for each pattern.
 
+## Ask When Ambiguous
+
+When multiple patterns could apply, present a brief comparison and ask which direction fits:
+- "This could use Strategy (if algorithms vary) or polymorphism on a factory (if types vary). Which axis of change do you expect to grow?"
+- If you're unsure what pattern fits, say so. Don't force a pattern where a simple function suffices.
+- If the problem is too vague to pattern-match, ask clarifying questions first. A pattern chosen on partial input is technical debt.
+
 ## Anti-patterns
 
 - ❌ **Pattern for pattern's sake** — a simple function is better than a Strategy class with one implementation

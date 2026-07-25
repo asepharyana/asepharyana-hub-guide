@@ -85,6 +85,13 @@ When the task calls for it, load:
 
 - **[references/solid.md](references/solid.md)** — Full SOLID treatment (SRP, OCP, LSP, ISP, DIP). Component principles (REP, CCP, CRP, ADP, SDP, SAP). Examples for each principle, historical evolution, and practical tests for violations.
 
+## Ask When Ambiguous
+
+When the module boundary is unclear, ask rather than guessing:
+- "Should this live in domain or application layer? Is it a pure business rule or an orchestration concern?"
+- "Is this a port (interface declared by application) or an adapter (implementation in infrastructure)?"
+- If you're not sure which layer a piece of logic belongs to, flag it with a brief question. A wrong boundary assumption is expensive to refactor later.
+
 ## Anti-patterns
 
 - ❌ Business logic in route handlers or controllers
