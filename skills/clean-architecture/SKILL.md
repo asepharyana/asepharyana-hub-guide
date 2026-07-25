@@ -1,6 +1,6 @@
 ---
 name: clean-architecture
-description: Apply Clean Architecture, hexagonal architecture, and SOLID principles when designing system boundaries, modules, or microservices. Use when structuring a new service, deciding what a component should own, untangling framework coupling, or whenever the user mentions "clean architecture," "hexagonal architecture," "onion architecture," "ports and adapters," "SOLID," "Dependency Rule," or "architecture boundaries."
+description: Apply Clean Architecture, hexagonal architecture, and SOLID principles when designing system boundaries, modules, or microservices. Use when structuring a new service, deciding what a component should own, untangling framework coupling. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Clean Architecture

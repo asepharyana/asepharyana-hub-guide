@@ -1,6 +1,6 @@
 ---
 name: performance
-description: Best practices for software performance — caching, query optimization, lazy loading, profiling, CDN, database indexing, and memory management. Use when optimizing slow endpoints, reducing load times, designing caching strategies, or whenever the user mentions "performance," "optimization," "slow," "cache," "lazy loading," "profiling," "bottleneck," "N+1," "latency," "throughput," or "scalability."
+description: Best practices for software performance — caching, query optimization, lazy loading, profiling, CDN, database indexing, and memory management. Use when optimizing slow endpoints, reducing load times, designing caching strategies. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Performance Best Practices

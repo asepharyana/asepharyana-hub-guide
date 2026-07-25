@@ -1,6 +1,6 @@
 ---
 name: python
-description: Python best practices — typing, project structure, packaging, FastAPI patterns, async, testing, and idiomatic Python. Use when writing Python code, structuring a Python project, or whenever the user mentions "Python," "FastAPI," "Django," "pytest," "PEP 8," "type hints," "Pydantic," "asyncio," "pip," "poetry," or "uv."
+description: Python best practices — typing, project structure, packaging, FastAPI patterns, async, testing, and idiomatic Python. Use when writing Python code, structuring a Python project. Triggers when working with this language's files, regardless of spoken language."
 ---
 
 # Python Best Practices

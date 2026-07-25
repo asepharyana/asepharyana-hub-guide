@@ -1,6 +1,6 @@
 ---
 name: typescript
-description: TypeScript best practices — strict mode, type patterns, generics, module system, async patterns, and project organization. Use when writing TypeScript code, configuring tsconfig, or whenever the user mentions "TypeScript," "TS," "ESM," "deno," "bun," "type annotation," "generics," "interface," "type," "strict mode," or "tsconfig."
+description: TypeScript best practices — strict mode, type patterns, generics, module system, async patterns, and project organization. Use when writing TypeScript code, configuring tsconfig. Triggers when working with this language's files, regardless of spoken language."
 ---
 
 # TypeScript Best Practices

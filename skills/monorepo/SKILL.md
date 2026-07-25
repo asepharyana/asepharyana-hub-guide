@@ -1,6 +1,6 @@
 ---
 name: monorepo
-description: Monorepo best practices — tooling, workspace configuration, shared dependencies, CI/CD, and dependency management. Use when working in monorepos (pnpm workspaces, moon, turborepo, Nx), managing shared packages, or whenever the user mentions "monorepo," "workspace," "pnpm workspace," "moon," "turborepo," "nx," "shared package," "dependency management," or "submodule."
+description: Monorepo best practices — tooling, workspace configuration, shared dependencies, CI/CD, and dependency management. Use when working in monorepos (pnpm workspaces, moon, turborepo, Nx), managing shared packages. Triggers from project files and configuration, not just keyword matching."
 ---
 
 # Monorepo Best Practices

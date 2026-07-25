@@ -1,6 +1,6 @@
 ---
 name: error-handling
-description: Best practices for error handling across languages — exceptions, Result types, input validation, error boundaries, null safety, and observability. Use when designing error strategies, writing validation logic, handling API errors, or whenever the user mentions "error handling," "exception," "try-catch," "Result," "Option," "Either," "null check," "validation," "panic," or "error boundary."
+description: Best practices for error handling across languages — exceptions, Result types, input validation, error boundaries, null safety, and observability. Use when designing error strategies, writing validation logic, handling API errors. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Error Handling

@@ -1,6 +1,6 @@
 ---
 name: rust
-description: Rust best practices — ownership, error handling, async, project structure, clippy rules, testing, and idiomatic Rust. Use when writing Rust code, reviewing Rust projects, or whenever the user mentions "Rust," "cargo," "clippy," "ownership," "borrowing," "lifetimes," "Result," "Option," "async/await," "tokio," "Axum," "SeaORM," or "unsafe."
+description: Rust best practices — ownership, error handling, async, project structure, clippy rules, testing, and idiomatic Rust. Use when writing Rust code, reviewing Rust projects. Triggers when working with this language's files, regardless of spoken language."
 ---
 
 # Rust Best Practices

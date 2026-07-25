@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Git workflow best practices — commit conventions, branching strategies, PR conventions, rebase vs merge, and code review. Use when writing commit messages, reviewing PRs, planning branching strategy, or whenever the user mentions "commit," "branch," "pull request," "PR," "merge," "rebase," "squash," "git flow," "trunk-based," "conventional commit," or "code review."
+description: Git workflow best practices — commit conventions, branching strategies, PR conventions, rebase vs merge, and code review. Use when writing commit messages, reviewing PRs, planning branching strategy. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Git Workflow

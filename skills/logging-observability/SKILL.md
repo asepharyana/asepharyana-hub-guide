@@ -1,6 +1,6 @@
 ---
 name: logging-observability
-description: Best practices for logging, metrics, tracing, alerting, and observability — structured logging, correlation IDs, Prometheus metrics, distributed tracing, and dashboard design. Use when adding logging, designing monitoring, setting up dashboards, debugging production issues, or whenever the user mentions "logging," "observability," "metrics," "tracing," "Prometheus," "Grafana," "Jaeger," "OpenTelemetry," "structured logging," or "alerting."
+description: Best practices for logging, metrics, tracing, alerting, and observability — structured logging, correlation IDs, Prometheus metrics, distributed tracing, and dashboard design. Use when adding logging, designing monitoring, setting up dashboards, debugging production issues. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Logging & Observability

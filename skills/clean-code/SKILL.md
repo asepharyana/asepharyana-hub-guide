@@ -1,6 +1,6 @@
 ---
 name: clean-code
-description: Apply Robert C. Martin's (Uncle Bob's) Clean Code, Clean Architecture, and Clean Craftsmanship principles when writing, reviewing, or refactoring code. Use this skill whenever the user asks to write new code of non-trivial size, refactor existing code, review code for quality, design a module or system boundary, write tests, or whenever the user mentions "clean code," "clean architecture," "SOLID," "SRP," "OCP," "LSP," "ISP," "DIP," "TDD," "refactor," "code smells," or "Uncle Bob." Also engage proactively when producing code with poor naming, long functions (>20 lines), deep nesting, unclear abstractions, duplicated logic, switch/if-else chains on type, missing tests, or frameworks bleeding into business logic.
+description: Apply Robert C. Martin's (Uncle Bob's) Clean Code, Clean Architecture, and Clean Craftsmanship principles when writing, reviewing, or refactoring code. Use this skill whenever the user asks to write new code of non-trivial size, refactor existing code, review code for quality, design a module or system boundary, write tests, or the user mentions clean-code concepts in any language. Also engage proactively from code quality signals — poor naming, long functions, deep nesting, unclear abstractions — regardless of spoken language. Detects from code context and project files — not dependent on specific language keywords.
 ---
 
 # Clean Code

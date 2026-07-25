@@ -1,6 +1,6 @@
 ---
 name: design-patterns
-description: Guidance on Gang of Four design patterns and modern alternatives — when to use each pattern, how to implement it correctly, and when to avoid it. Use when designing class structures, solving recurring design problems, refactoring switch/if-else chains, or whenever the user mentions "design patterns," "GoF," "Factory," "Strategy," "Observer," "Singleton," "Adapter," "Decorator," or "DI."
+description: Guidance on Gang of Four design patterns and modern alternatives — when to use each pattern, how to implement it correctly, and when to avoid it. Use when designing class structures, solving recurring design problems, refactoring switch/if-else chains. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Design Patterns

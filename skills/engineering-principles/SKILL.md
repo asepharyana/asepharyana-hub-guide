@@ -1,6 +1,6 @@
 ---
 name: engineering-principles
-description: Foundational software engineering principles that apply across all languages, frameworks, and project types — correctness, simplicity, YAGNI, KISS, DRY, root-cause fixes, least astonishment, explicit over implicit, fail fast, professional craftsmanship, and multi-agent orchestration for complex tasks. This skill is a baseline: apply these principles to every code decision, review, and architecture discussion, regardless of language or framework. Engage proactively whenever writing, reviewing, or designing code — especially when the user's request seems to violate one of these fundamentals. Also use when the user asks for "complex," "big," "multi-step," "comprehensive," "thorough," "parallel," "audit," "migrate," "research," or "large-scale" work — these trigger the Workflow orchestration principle (see §26).
+description: Foundational software engineering principles that apply across all languages, frameworks, and project types — correctness, simplicity, YAGNI, KISS, DRY, root-cause fixes, least astonishment, explicit over implicit, fail fast, professional craftsmanship, and multi-agent orchestration for complex tasks. This skill is a baseline: apply these principles to every code decision, review, and architecture discussion, regardless of language or framework. Engage proactively whenever writing, reviewing, or designing code — especially when the user's request seems to violate one of these fundamentals. Detects from code context, project files, and task complexity — not dependent on specific language keywords. Triggers regardless of spoken language when the task is complex, multi-step, or large in scope (see §26 — Workflow orchestration).
 ---
 
 # Engineering Principles
@@ -233,3 +233,16 @@ When the user's request is complex, multi-step, or large in scope, **use the Wor
 **Default to pipeline over barrier.** Pipeline lets item A verify while item B is still being reviewed — no wasted wall-clock time. Barriers (parallel() then parallel()) are only justified when the next stage genuinely needs ALL results from the prior stage (e.g., deduplication across all findings before expensive verification).
 
 **Don't over-engineer.** A workflow for a one-file fix is wasteful. Use Workflow for tasks that genuinely benefit from multiple perspectives or parallel execution. When in doubt, ask the user: "This looks complex — should I use a multi-agent workflow for thorough coverage?"
+
+## 27. Language-Agnostic Auto-Trigger — Jangan Hardcode Bahasa Inggris
+
+Skills harus trigger berdasarkan **konsep**, **konteks kode**, dan **file project** — bukan cuma kata kunci Bahasa Inggris. User bisa ngomong pake bahasa apapun.
+
+**Aturan:**
+- Detect dari **konteks** bukan keyword literal. User minta "tes" atau "pengujian" → trigger testing skill. User minta "bikin test" atau "add tests" → same thing.
+- Detect dari **kode yang lagi dikerjain** — file `.test.ts` → testing skill. Class `OrderService` dengan pola tertentu → clean-architecture skill. `routes.ts` → hono-backend/elysiajs.
+- Detect dari **file project** — `Cargo.toml` → rust skill. `go.mod` → go skill. `Dockerfile` → docker skill.
+- **Gak perlu nunggu user nyebut keyword.** Kalau user lagi nulis kode TypeScript dan nyebut "buat repository pattern" — itu trigger clean-architecture + typescript. Kalimatnya campur aduk, konsepnya yang ditangkap.
+- **Behavioral pattern > keyword.** User bilang "kode ini jelek, rapihin" → trigger clean-code. User bilang "tambahin validasi" → trigger error-handling + security.
+- **Tanya kalau ragu.** Kalau konteks gak cukup buat nentuin skill mana, tanya 1 pertanyaan pendek. Jangan asumsi.
+- Hook `detect-project.sh` udah otomatis deteksi dari file project — ini jalur utama activation, bukan cuma keyword matching.

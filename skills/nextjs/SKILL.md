@@ -1,6 +1,6 @@
 ---
 name: nextjs
-description: Next.js App Router best practices — server components, client components, data fetching, routing, middleware, and deployment. Use when building Next.js applications, or whenever the user mentions "Next.js," "App Router," "server component," "client component," "SSR," "SSG," "ISR," "Middleware," "layout," "page," "route handler," "next/navigation," or "server actions."
+description: Next.js App Router best practices — server components, client components, data fetching, routing, middleware, and deployment. Use when building Next.js applications. Triggers when working with this framework's files and patterns, not just explicit mentions.js," "App Router," "server component," "client component," "SSR," "SSG," "ISR," "Middleware," "layout," "page," "route handler," "next/navigation," or "server actions."
 ---
 
 # Next.js Best Practices

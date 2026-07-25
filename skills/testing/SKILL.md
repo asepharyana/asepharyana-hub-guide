@@ -1,6 +1,6 @@
 ---
 name: testing
-description: Best practices for software testing — TDD, test pyramid, F.I.R.S.T. principles, mocking strategies, and test organization. Use when writing tests, designing test strategy, refactoring under test, or whenever the user mentions "unit test," "integration test," "TDD," "test coverage," "mock," "stub," "e2e test," "Jest," "Vitest," "pytest," "cargo test," or "testing."
+description: Best practices for software testing — TDD, test pyramid, F.I.R.S.T. principles, mocking strategies, and test organization. Use when writing tests, designing test strategy, refactoring under test. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Testing Best Practices

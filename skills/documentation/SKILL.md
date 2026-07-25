@@ -1,6 +1,6 @@
 ---
 name: documentation
-description: Best practices for software documentation — README, API docs, ADRs, inline comments, changelogs, and knowledge base organization. Use when writing README files, designing documentation strategy, adding inline comments, or whenever the user mentions "documentation," "README," "ADR," "changelog," "docstring," "wiki," "documentation as code," or "docs."
+description: Best practices for software documentation — README, API docs, ADRs, inline comments, changelogs, and knowledge base organization. Use when writing README files, designing documentation strategy, adding inline comments. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Documentation Best Practices

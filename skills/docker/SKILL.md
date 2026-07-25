@@ -1,6 +1,6 @@
 ---
 name: docker
-description: Docker best practices — Dockerfile optimization, multi-stage builds, Docker Compose, networking, security, and image management. Use when writing Dockerfiles, designing container infrastructure, debugging docker issues, or whenever the user mentions "Docker," "Dockerfile," "docker-compose," "compose," "multi-stage," "container," "image," "registry," or "OCI."
+description: Docker best practices — Dockerfile optimization, multi-stage builds, Docker Compose, networking, security, and image management. Use when writing Dockerfiles, designing container infrastructure, debugging docker issues. Triggers from project files and configuration, not just keyword matching."
 ---
 
 # Docker Best Practices

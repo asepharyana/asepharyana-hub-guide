@@ -1,6 +1,6 @@
 ---
 name: ci-cd
-description: CI/CD best practices — GitHub Actions, pipeline design, Docker build + push, deployment workflows, testing in CI, and environment management. Use when designing CI/CD pipelines, debugging workflow failures, or whenever the user mentions "CI," "CD," "GitHub Actions," "GitLab CI," "Jenkins," "pipeline," "deploy," "workflow," "Docker build," "environment," or "automation."
+description: CI/CD best practices — GitHub Actions, pipeline design, Docker build + push, deployment workflows, testing in CI, and environment management. Use when designing CI/CD pipelines, debugging workflow failures. Triggers from project files and configuration, not just keyword matching."
 ---
 
 # CI/CD Best Practices

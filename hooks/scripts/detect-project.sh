@@ -74,3 +74,4 @@ if [ -n "$SKILLS" ]; then
 fi
 echo "📐 [hub-guide] Apply these best-practice rules throughout this session."
 echo "📐 [hub-guide] When in doubt about intent or approach — ask instead of assuming."
+echo "📐 [hub-guide] All skills work regardless of your spoken language — they trigger from code context and project files, not just English keywords."

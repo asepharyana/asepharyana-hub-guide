@@ -1,6 +1,6 @@
 ---
 name: drizzle-database
-description: Drizzle ORM best practices — schema design, queries, migrations, relations, and performance. Use when designing database schemas, writing Drizzle queries, managing migrations, or whenever the user mentions "Drizzle," "Drizzle ORM," "drizzle-orm," "drizzle-kit," "schema," "migration," "PostgreSQL," "SQLite," or "database design."
+description: Drizzle ORM best practices — schema design, queries, migrations, relations, and performance. Use when designing database schemas, writing Drizzle queries, managing migrations. Triggers when working with this framework's files and patterns, not just explicit mentions."
 ---
 
 # Drizzle ORM Best Practices

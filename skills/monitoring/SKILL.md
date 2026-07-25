@@ -1,6 +1,6 @@
 ---
 name: monitoring
-description: Monitoring and observability best practices — Prometheus, Grafana, alerts, dashboards, uptime monitoring, and incident response. Use when setting up monitoring infrastructure, designing dashboards, defining alerts, or whenever the user mentions "monitoring," "Prometheus," "Grafana," "alert," "dashboard," "uptime," "incident," "runbook," "SLA," "SLO," "SLI," or "on-call."
+description: Monitoring and observability best practices — Prometheus, Grafana, alerts, dashboards, uptime monitoring, and incident response. Use when setting up monitoring infrastructure, designing dashboards, defining alerts. Triggers from project files and configuration, not just keyword matching."
 ---
 
 # Monitoring Best Practices

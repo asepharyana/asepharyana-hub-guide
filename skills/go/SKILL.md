@@ -1,6 +1,6 @@
 ---
 name: go
-description: Go best practices — idiomatic Go, project layout, error handling, interfaces, concurrency, testing, and dependency management. Use when writing Go code, reviewing Go projects, or whenever the user mentions "Go," "Golang," "goroutine," "channel," "interface," "defer," "go mod," "gRPC," "net/http," "chi," "echo," "fiber," or "go test."
+description: Go best practices — idiomatic Go, project layout, error handling, interfaces, concurrency, testing, and dependency management. Use when writing Go code, reviewing Go projects. Triggers when working with this language's files, regardless of spoken language."
 ---
 
 # Go Best Practices

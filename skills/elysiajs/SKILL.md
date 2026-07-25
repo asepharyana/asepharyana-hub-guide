@@ -1,6 +1,6 @@
 ---
 name: elysiajs
-description: ElysiaJS (Bun) best practices — Eden Treaty, plugins, type-safe routes, Elysia validation, and middleware. Use when building ElysiaJS backend APIs, or whenever the user mentions "Elysia," "ElysiaJS," "Eden," "Eden Treaty," "Bun," "Elysia plugin," or "Elysia validation."
+description: ElysiaJS (Bun) best practices — Eden Treaty, plugins, type-safe routes, Elysia validation, and middleware. Use when building ElysiaJS backend APIs. Triggers when working with this framework's files and patterns, not just explicit mentions."
 ---
 
 # ElysiaJS Best Practices
