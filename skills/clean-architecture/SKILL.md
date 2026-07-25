@@ -1,6 +1,6 @@
 ---
 name: clean-architecture
-description: MANDATORY — always active. Clean Architecture, hexagonal architecture, and SOLID principles. Apply to every session regardless of context. Use when structuring services, modules, microservices, or untangling framework coupling. Always enforce the Dependency Rule — business rules must not depend on frameworks, databases, or UI. Detects from code context regardless of spoken language.
+description: MANDATORY — always active. Apply Clean Architecture, hexagonal architecture, and SOLID principles when designing system boundaries, modules, or microservices. Use when structuring a new service, deciding what a component should own, untangling framework coupling. Always enforce the Dependency Rule — business rules must not depend on frameworks, databases, or UI. Detects from code context and project files — not dependent on specific language keywords.
 ---
 
 # Clean Architecture
