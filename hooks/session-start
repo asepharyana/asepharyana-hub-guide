@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# SessionStart hook for code-guide plugin
+# Injects mandatory skill context at session start (like Superpowers pattern)
+
+set -euo pipefail
+
+# Determine plugin root directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+SKILLS_DIR="${PLUGIN_ROOT}/skills"
+
+# Build the context string by extracting descriptions from mandatory skill SKILL.md files
+build_context() {
+  local ctx=""
+
+  ctx="${ctx}<EXTREMELY_IMPORTANT>\n"
+  ctx="${ctx}You have the code-guide plugin loaded. The following MANDATORY skills apply to EVERY coding task — load them via the Skill tool whenever relevant:\n\n"
+
+  # Read each mandatory skill's frontmatter
+  local mandatory="engineering-principles clean-code clean-architecture testing error-handling security git-workflow api-design"
+
+  for skill in $mandatory; do
+    local file="${SKILLS_DIR}/${skill}/SKILL.md"
+    if [ -f "$file" ]; then
+      # Extract description line — strip "description:" prefix and optional quotes
+      local desc
+      desc=$(grep "^description:" "$file" | head -1 | cut -d: -f2- | tr -d '\n')
+      desc="${desc#\"}"  # strip leading quote if present
+      desc="${desc%\"}"  # strip trailing quote if present
+      desc="$(echo "$desc" | awk '{$1=$1};1')"  # trim whitespace
+      ctx="${ctx}• code-guide:${skill} — ${desc}\n"
+    fi
+  done
+
+  ctx="${ctx}\n"
+
+  # Add non-mandatory skills list (so Claude knows they exist)
+  ctx="${ctx}Other available skills (non-mandatory — trigger when relevant):\n"
+  ctx="${ctx}typescript, python, rust, go, react-frontend, nextjs, hono-backend, elysiajs, drizzle-database, docker, ci-cd, monitoring, logging-observability, performance, documentation, design-patterns, monorepo\n"
+
+  ctx="${ctx}\n"
+  ctx="${ctx}<EXTREMELY_IMPORTANT>Rules you MUST follow at all times:\n"
+  ctx="${ctx}1. NEVER suppress lints/type errors — fix the code instead.\n"
+  ctx="${ctx}2. NEVER assume — show evidence from codebase/docs for everything.\n"
+  ctx="${ctx}3. ASK when ambiguous — don't silently pick one interpretation.\n"
+  ctx="${ctx}4. Use the Workflow tool for complex multi-step tasks that need parallel execution or adversarial verification.\n"
+  ctx="${ctx}5. Fix root causes, not symptoms — patch the shared function, not every caller.\n"
+  ctx="${ctx}6. Tests come first — code without tests is legacy code.\n"
+  ctx="${ctx}7. The simplest solution that works is the correct one (YAGNI/KISS).\n"
+  ctx="${ctx}8. Leave every module cleaner than you found it (Boy Scout Rule).\n"
+
+  ctx="${ctx}\n"
+  ctx="${ctx}When you need the full content of any skill, use the Skill tool to load it.\n"
+  ctx="${ctx}</EXTREMELY_IMPORTANT>"
+
+  printf '%s' "$ctx"
+}
+
+# Escape string for JSON embedding
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+context=$(build_context)
+escaped_context=$(escape_for_json "$context")
+
+# Output JSON for Claude Code (hookSpecificOutput.additionalContext format)
+printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$escaped_context"
+
+exit 0

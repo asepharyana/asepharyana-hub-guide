@@ -1,6 +1,6 @@
 ---
 name: react-frontend
-description: React and frontend best practices — component patterns, hooks, state management, TanStack Query, React Router, performance, and testing. Use when building React components, designing state management. Triggers when working with this framework's files and patterns, not just explicit mentions.js," or "Frontend."
+description: Use when building React components — hooks, state management, TanStack Query, React Router, performance patterns, and testing. Triggers from .tsx/.jsx files and framework file patterns.
 ---
 
 # React Frontend Best Practices

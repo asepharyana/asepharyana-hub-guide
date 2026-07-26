@@ -1,6 +1,6 @@
 ---
 name: hono-backend
-description: Hono best practices — middleware, RPC, validation (Zod), Drizzle integration, and project organization. Use when building Hono backend APIs. Triggers when working with this framework's files and patterns, not just explicit mentions.js," "hono RPC," "hono middleware," "hono Zod OpenAPI," "hono validation," or "hono Drizzle."
+description: Use when building Hono backend APIs — middleware, RPC, Zod validation, Drizzle integration, and project organization. Triggers from Hono file patterns and project config.
 ---
 
 # Hono Backend Best Practices
