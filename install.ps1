@@ -1,5 +1,7 @@
 # install.ps1 — code-guide plugin installer for Claude Code (Windows)
 #
+# SessionStart hook injects ALL skills/*/SKILL.md into context at session start.
+#
 # Usage:
 #   .\install.ps1                  # Install to %USERPROFILE%\.claude\skills\
 #   .\install.ps1 -Link           # Symlink (PowerShell Admin/Dev mode)
@@ -30,4 +32,4 @@ if ($Link) {
 
 Write-Host ""
 Write-Host "Done. Restart Claude Code or run /reload."
-Write-Host "Skills auto-trigger. SessionStart hook injects engineering-principles into context."
+Write-Host "SessionStart hook injects all 25 best-practice guides into context."

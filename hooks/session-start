@@ -1,18 +1,34 @@
 #!/usr/bin/env bash
 # SessionStart hook for code-guide plugin.
-# Reads engineering-principles SKILL.md and injects it as context
-# so the 29 foundational principles are always active from turn 1.
+# Reads ALL skills/*/SKILL.md files and injects them as additionalContext
+# so every best-practice guide is always active from turn 1.
 #
-# Pattern: identical to Superpowers' session-start hook
-# which injects skills/using-superpowers/SKILL.md content.
+# Pattern: identical to explanatory-output-style's session-start hook
+# which injects educational-output instructions into context.
+# Instead of one static message, we dynamically iterate over all skills.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-skill_content=$(cat "${PLUGIN_ROOT}/skills/engineering-principles/SKILL.md" 2>&1 || echo "Error reading engineering-principles skill")
+# Build combined content from all SKILL.md files.
+combined=""
+while IFS= read -r -d '' skill_file; do
+    skill_name=$(basename "$(dirname "$skill_file")")
+    content=$(cat "$skill_file")
+    # Append skill with header separator — uses $'...' for real newlines
+    combined="${combined}"$'\n\n\n'"===== code-guide:${skill_name} ====="$'\n\n'"${content}"
+done < <(find "${PLUGIN_ROOT}/skills" -name 'SKILL.md' -print0 | sort -z)
 
+intro=$'You have the code-guide plugin loaded with all best-practice guides directly injected.\nThe following skills are ALWAYS active in context — no manual invocation needed.\nWhen the current task matches a skill\'s domain, apply its guidance automatically.\n'
+
+full_context="<CODE_GUIDE_SKILLS>
+${intro}
+${combined}
+</CODE_GUIDE_SKILLS>"
+
+# JSON-escape the full context: \ → \\, " → \", newline → \n, etc.
 escape_for_json() {
     local s="$1"
     s="${s//\\/\\\\}"
@@ -23,13 +39,12 @@ escape_for_json() {
     printf '%s' "$s"
 }
 
-escaped=$(escape_for_json "$skill_content")
-context="<EXTREMELY_IMPORTANT>\nYou have the code-guide plugin loaded. Below is the full content of the 'code-guide:engineering-principles' skill — the 29 foundational rules that apply to every coding decision:\n\n${escaped}\n</EXTREMELY_IMPORTANT>"
+escaped=$(escape_for_json "$full_context")
 
 if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
-  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$context"
+  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$escaped"
 else
-  printf '{"additionalContext":"%s"}\n' "$context"
+  printf '{"additionalContext":"%s"}\n' "$escaped"
 fi
 
 exit 0

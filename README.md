@@ -2,23 +2,23 @@
 
 A Claude Code plugin serving as a complete engineering guide for **all programming situations** — monorepo, standalone, any language, any framework.
 
+All best-practice guides are **injected directly into the system prompt** at every session start via a `SessionStart` hook (same pattern as the `explanatory-output-style` plugin). No manual skill invocation needed — all guides are always active.
+
 ## Features
 
-### 24 Best-Practice Skills
+### 25 Best-Practice Guides (Always Active)
 
-| Category | Skills |
+| Category | Guides |
 |----------|--------|
-| **Core Engineering** | clean-code, clean-architecture, design-patterns, testing, error-handling, security, api-design, git-workflow, documentation, logging-observability, performance |
+| **Core Engineering** | engineering-principles, clean-code, clean-architecture, design-patterns, testing, error-handling, security, api-design, git-workflow, documentation, logging-observability, performance |
 | **Languages** | typescript, python, rust, go |
 | **Frameworks** | react-frontend, elysiajs, hono-backend, drizzle-database, nextjs |
 | **Infrastructure** | docker, ci-cd, monitoring |
 | **Monorepo** | monorepo (patterns + submodules + workspace tooling) |
 
-Skills activate automatically when Claude detects relevant context.
+### SessionStart Hook (All Skills Injected)
 
-### SessionStart Hook
-
-A SessionStart command hook (identical to Superpowers' pattern) injects the full `engineering-principles` skill content into context at every session start — all 29 principles covering correctness, YAGNI, KISS, DRY, never assume (show evidence), never suppress lints, root-cause fixes, and more. These rules are active from turn 1.
+A SessionStart command hook reads **every** `skills/*/SKILL.md` file and injects all content into the conversation context at session start — wrapped in `<CODE_GUIDE_SKILLS>` tags (same pattern as `explanatory-output-style`'s `additionalContext` injection). All 25 guides are active from turn 1, no separate invocation needed.
 
 ## Installation
 
@@ -34,27 +34,27 @@ A SessionStart command hook (identical to Superpowers' pattern) injects the full
 
 ## Usage
 
-Skills are **auto-triggered** — Claude loads them when you mention relevant topics or work with matching file types.
+All guides are **always present in context** — Claude automatically applies the relevant guidance based on the current task, file types, and project structure.
 
-Example triggers:
-- *"Refactor this function"* → `clean-code` activates
-- *"Write a test for this"* → `testing` activates
-- *"Design an API endpoint"* → `api-design` activates
-- Working with `.ts` files → `typescript` activates
-- Project with `Cargo.toml` → `rust` activates
+Skills activate automatically when the task matches their domain:
+- *"Refactor this function"* → `clean-code` guides apply
+- *"Write a test for this"* → `testing` guides apply
+- *"Design an API endpoint"* → `api-design` guides apply
+- Working with `.ts` files → `typescript` guides apply
+- Project with `Cargo.toml` → `rust` guides apply
 
 ## Structure
 
 ```
 code-guide/
 ├── .claude-plugin/
-│   └── plugin.json           # Plugin manifest
+│   └── plugin.json           # Plugin manifest (no skills auto-discovery)
 ├── hooks/
 │   ├── hooks.json            # SessionStart command hook config
 │   ├── run-hook.cmd          # Cross-platform polyglot wrapper
-│   └── session-start         # Injects engineering-principles into context
-├── skills/
-│   ├── engineering-principles/  # Auto-injected at session start
+│   └── session-start         # Injects ALL skills/*/SKILL.md into context
+├── skills/                   # Source files read by the SessionStart hook
+│   ├── engineering-principles/
 │   ├── clean-code/
 │   ├── ...
 └── README.md
@@ -62,6 +62,7 @@ code-guide/
 
 ## How It Works
 
-- **SessionStart hook** runs `hooks/run-hook.cmd session-start` which reads `skills/engineering-principles/SKILL.md` and injects it into the conversation context wrapped in `<EXTREMELY_IMPORTANT>` tags (same pattern as Superpowers' `using-superpowers`).
-- All 24 skills are auto-discovered from the `skills/` directory.
-- Skills activate when Claude detects relevant context — no manual commands needed.
+1. **SessionStart hook** runs `hooks/run-hook.cmd session-start`.
+2. The hook script iterates over **all** `skills/*/SKILL.md` files.
+3. Each skill's content is combined and injected as `additionalContext` wrapped in `<CODE_GUIDE_SKILLS>` tags — same `hookSpecificOutput.additionalContext` pattern as `explanatory-output-style`.
+4. All 25 guides are **always present** in the system prompt — no separate skill invocation needed.
