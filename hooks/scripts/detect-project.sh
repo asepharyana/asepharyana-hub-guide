@@ -1,5 +1,5 @@
 #!/bin/bash
-# hub-guide: inject best-practice skill content at session start
+# hub-guide: detect project and prime skills at session start
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -41,7 +41,7 @@ fi
 MANDATORY="engineering-principles clean-code clean-architecture testing error-handling security git-workflow api-design"
 SKILL_NAMES="${SKILL_NAMES#, }"
 
-# --- build context and output via Python for reliable JSON ---
+# --- build minimal context injection via Python ---
 python3 << PYEOF
 import json, os, sys
 
@@ -50,56 +50,41 @@ mandatory = """${MANDATORY}"""
 skill_names = """${SKILL_NAMES}"""
 plugin_root = """${PLUGIN_ROOT}"""
 
-def read_skill(name):
-    path = os.path.join(plugin_root, "skills", name, "SKILL.md")
-    try:
-        with open(path) as f:
-            return f.read()
-    except:
-        return ""
+# Read just the foundational skill (engineering-principles) as the primer
+foundational_skill = ""
+f_path = os.path.join(plugin_root, "skills", "engineering-principles", "SKILL.md")
+try:
+    with open(f_path) as f:
+        foundational_skill = f.read()
+except:
+    foundational_skill = "(engineering-principles skill not found)"
 
-# Build summary
-summary = f"[hub-guide] detected: {project_dir}\n[hub-guide] mandatory: {mandatory}"
-if skill_names:
-    summary += f"\n[hub-guide] active: {skill_names}"
-summary += "\n[hub-guide] When in doubt — ask instead of assuming."
-summary += "\n[hub-guide] Never assume — show evidence for everything."
-summary += "\n[hub-guide] All skills work regardless of your spoken language."
+context = f"""<EXTREMELY_IMPORTANT>
+You have the hub-guide best-practice skills loaded.
 
-# Build skill content
-content_parts = []
-content_parts.append("<EXTREMELY_IMPORTANT>")
-content_parts.append("You have the following hub-guide skills loaded and active. They apply to every code decision, review, and architecture discussion in this session — regardless of what language the user speaks.")
+=== MANDATORY (always active) ===
+{mandatory}
 
-for skill in mandatory.split():
-    c = read_skill(skill.strip())
-    content_parts.append(f"\n=== hub-guide:{skill} ===\n{c}")
+=== FOUNDATIONAL ===
+{foundational_skill}
 
-if skill_names:
-    content_parts.append(f"\n=== hub-guide:detected ===\nThe following skills are relevant to this project. If their topics come up, use the Skill tool to load them: {skill_names}")
+=== PROJECT-SPECIFIC ===
+{skill_names if skill_names else "(none detected)"}
 
-content_parts.append("\nIMPORTANT: Never assume or guess. Always find evidence in the codebase, documentation, or by asking the user. Show your sources.\n</EXTREMELY_IMPORTANT>")
+Use the Skill tool for any other hub-guide skill when its topic comes up.
+Never assume or guess. Always find evidence in the codebase or docs.
+</EXTREMELY_IMPORTANT>"""
 
-skill_content = "\n".join(content_parts)
-full_context = f"{summary}\n\n{skill_content}"
-
-# Output
 if os.environ.get("CLAUDE_PLUGIN_ROOT") and not os.environ.get("COPILOT_CLI"):
     output = {
         "hookSpecificOutput": {
             "hookEventName": "SessionStart",
-            "additionalContext": full_context
+            "additionalContext": context
         }
     }
     json.dump(output, sys.stdout, ensure_ascii=False)
     print()
 else:
-    print(f"[hub-guide] detected: {project_dir}")
-    print(f"[hub-guide] mandatory: {mandatory}")
-    if skill_names:
-        print(f"[hub-guide] active: {skill_names}")
-    print("[hub-guide] When in doubt — ask instead of assuming.")
-    print()
-    print(skill_content)
+    print("hub-guide skills: " + ", ".join([m for m in mandatory.split()] + ([skill_names] if skill_names else [])))
 PYEOF
 exit 0
