@@ -59,12 +59,12 @@ def read_skill(name):
         return ""
 
 # Build summary
-summary = f"\U0001f4d0 [hub-guide] detected: {project_dir}\n\U0001f4d0 mandatory: {mandatory}"
+summary = f"[hub-guide] detected: {project_dir}\n[hub-guide] mandatory: {mandatory}"
 if skill_names:
-    summary += f"\n\U0001f4d0 active: {skill_names}"
-summary += "\n\U0001f4d0 When in doubt — ask instead of assuming."
-summary += "\n\U0001f4d0 Never assume — show evidence for everything."
-summary += "\n\U0001f4d0 All skills work regardless of your spoken language."
+    summary += f"\n[hub-guide] active: {skill_names}"
+summary += "\n[hub-guide] When in doubt — ask instead of assuming."
+summary += "\n[hub-guide] Never assume — show evidence for everything."
+summary += "\n[hub-guide] All skills work regardless of your spoken language."
 
 # Build skill content
 content_parts = []
@@ -94,11 +94,11 @@ if os.environ.get("CLAUDE_PLUGIN_ROOT") and not os.environ.get("COPILOT_CLI"):
     json.dump(output, sys.stdout, ensure_ascii=False)
     print()
 else:
-    print(f"\U0001f4d0 [hub-guide] detected: {project_dir}")
-    print(f"\U0001f4d0 mandatory: {mandatory}")
+    print(f"[hub-guide] detected: {project_dir}")
+    print(f"[hub-guide] mandatory: {mandatory}")
     if skill_names:
-        print(f"\U0001f4d0 active: {skill_names}")
-    print("\U0001f4d0 When in doubt — ask instead of assuming.")
+        print(f"[hub-guide] active: {skill_names}")
+    print("[hub-guide] When in doubt — ask instead of assuming.")
     print()
     print(skill_content)
 PYEOF
