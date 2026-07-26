@@ -3,7 +3,7 @@
     "Stop": [{
       "hooks": [{
         "type": "prompt",
-        "prompt": "Hub-guide best-practice skills are loaded. MANDATORY: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. Never assume or guess — always find evidence in codebase or docs. If these skills are already being applied, respond: {\"ok\": true}. If not fully applied, respond: {\"ok\": false, \"reason\": \"[hub-guide] Apply MANDATORY skills: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design.\"}"
+        "prompt": "Check if hub-guide MANDATORY skills are being applied where relevant: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. If the assistant is using evidence from codebase/docs instead of guessing, and is not violating any of these principles, respond: {\"ok\": true}. Only respond {\"ok\": false, \"reason\": \"[hub-guide] Apply MANDATORY skills: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design.\"} if the assistant is clearly guessing or violating these principles."
       }]
     }]
   }
