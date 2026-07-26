@@ -1,10 +1,9 @@
 {
   "hooks": {
-    "SessionStart": [{
-      "matcher": "startup|resume|compact",
+    "Stop": [{
       "hooks": [{
-        "type": "command",
-        "command": "echo 'EXTREMELY_IMPORTANT: hub-guide best-practice skills are loaded and active for this session. MANDATORY: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. Use the Skill tool to load any hub-guide skill when its topic comes up. Never assume or guess -- always find evidence in the codebase or docs.'"
+        "type": "prompt",
+        "prompt": "You have hub-guide best-practice skills active. MANDATORY: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. Never assume or guess. Always find evidence in codebase or docs. If you have not applied these, return {\"ok\": false, \"reason\": \"[hub-guide] Apply MANDATORY skills: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. Never assume or guess. Always show evidence.\"}"
       }]
     }]
   }
