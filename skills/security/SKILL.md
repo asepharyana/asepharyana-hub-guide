@@ -1,6 +1,6 @@
 ---
 name: security
-description: Security best practices for software development — input validation, authentication, authorization, secrets management, OWASP Top 10, and secure coding patterns. Use when handling user input, designing auth flows, storing secrets, configuring CORS/headers. Detects from code context and project files — not dependent on specific language keywords."
+description: MANDATORY — always active. Security best practices for software development — input validation, authentication, authorization, secrets management, OWASP Top 10, and secure coding patterns. Use when handling user input, designing auth flows, storing secrets, configuring CORS/headers. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Security Best Practices

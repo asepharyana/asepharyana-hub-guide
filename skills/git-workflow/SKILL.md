@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Git workflow best practices — commit conventions, branching strategies, PR conventions, rebase vs merge, and code review. Use when writing commit messages, reviewing PRs, planning branching strategy. Detects from code context and project files — not dependent on specific language keywords."
+description: MANDATORY — always active. Git workflow best practices — commit conventions, branching strategies, PR conventions, rebase vs merge, and code review. Use when writing commit messages, reviewing PRs, planning branching strategy. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # Git Workflow

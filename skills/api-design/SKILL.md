@@ -1,6 +1,6 @@
 ---
 name: api-design
-description: Best practices for API design — REST, GraphQL, RPC conventions, versioning, status codes, pagination, error responses, and documentation. Use when designing new endpoints, reviewing API contracts. Detects from code context and project files — not dependent on specific language keywords."
+description: MANDATORY — always active. Best practices for API design — REST, GraphQL, RPC conventions, versioning, status codes, pagination, error responses, and documentation. Use when designing new endpoints, reviewing API contracts. Detects from code context and project files — not dependent on specific language keywords."
 ---
 
 # API Design

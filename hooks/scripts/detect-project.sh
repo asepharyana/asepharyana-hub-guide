@@ -42,8 +42,10 @@ MANDATORY="engineering-principles clean-code clean-architecture testing error-ha
 SKILL_NAMES="${SKILL_NAMES#, }"
 
 # --- output: plain text only, no emoji, no JSON ---
-echo "[hub-guide] detected: ${PROJECT_DIR}"
+echo "[hub-guide] session: ${PROJECT_DIR}"
 echo "[hub-guide] mandatory: ${MANDATORY}"
 if [ -n "$SKILL_NAMES" ]; then
   echo "[hub-guide] active: ${SKILL_NAMES}"
 fi
+echo ""
+echo "EXTREMELY_IMPORTANT: The hub-guide skills listed above are loaded and active. They apply to every code decision in this session. Never suppress lints. Never assume — show evidence. All skills work regardless of spoken language."
