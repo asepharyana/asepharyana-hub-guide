@@ -234,35 +234,35 @@ When the user's request is complex, multi-step, or large in scope, **use the Wor
 
 **Don't over-engineer.** A workflow for a one-file fix is wasteful. Use Workflow for tasks that genuinely benefit from multiple perspectives or parallel execution. When in doubt, ask the user: "This looks complex — should I use a multi-agent workflow for thorough coverage?"
 
-## 27. Language-Agnostic Auto-Trigger — Jangan Hardcode Bahasa Inggris
+## 27. Language-Agnostic Detection — Trigger from Concepts, Not English Keywords
 
-Skills harus trigger berdasarkan **konsep**, **konteks kode**, dan **file project** — bukan cuma kata kunci Bahasa Inggris. User bisa ngomong pake bahasa apapun.
+Skills must trigger based on **concept**, **code context**, and **project files** — not just explicit English keyword matches. The user may speak any language.
 
-**Aturan:**
-- Detect dari **konteks** bukan keyword literal. User minta "tes" atau "pengujian" → trigger testing skill. User minta "bikin test" atau "add tests" → same thing.
-- Detect dari **kode yang lagi dikerjain** — file `.test.ts` → testing skill. Class `OrderService` dengan pola tertentu → clean-architecture skill. `routes.ts` → hono-backend/elysiajs.
-- Detect dari **file project** — `Cargo.toml` → rust skill. `go.mod` → go skill. `Dockerfile` → docker skill.
-- **Gak perlu nunggu user nyebut keyword.** Kalau user lagi nulis kode TypeScript dan nyebut "buat repository pattern" — itu trigger clean-architecture + typescript. Kalimatnya campur aduk, konsepnya yang ditangkap.
-- **Behavioral pattern > keyword.** User bilang "kode ini jelek, rapihin" → trigger clean-code. User bilang "tambahin validasi" → trigger error-handling + security.
-- **Tanya kalau ragu.** Kalau konteks gak cukup buat nentuin skill mana, tanya 1 pertanyaan pendek. Jangan asumsi.
-- Hook `detect-project.sh` udah otomatis deteksi dari file project — ini jalur utama activation, bukan cuma keyword matching.
+**Rules:**
+- Detect from **context** not literal keywords. User says "tes" or "pengujian" → trigger testing skill. User says "bikin test" or "add tests" → same thing.
+- Detect from **code being worked on** — `.test.ts` file → testing skill. `routes.ts` → hono-backend/elysiajs. Drizzle schema → drizzle-database.
+- Detect from **project files** — `Cargo.toml` → rust. `go.mod` → go. `Dockerfile` → docker.
+- **Don't wait for keyword mentions.** If the user is writing TypeScript and says "buat repository pattern" — trigger clean-architecture + typescript. Mixed language doesn't matter — capture the concept.
+- **Behavioral pattern > keyword.** User says "kode ini jelek, rapihin" → trigger clean-code. User says "tambahin validasi" → trigger error-handling + security.
+- **Ask when unsure.** If context is insufficient to determine which skill, ask one short question. Don't assume.
+- The `detect-project.sh` hook automatically detects from project files — this is the primary activation pathway, not just keyword matching.
 
 ## 28. Never Suppress Lints — Fix the Code
 
-Linter, type checker, dan analyzer ada untuk menangkap bug sebelum produksi. **Jangan pernah matiin mereka dengan `#[allow]`, `// @ts-ignore`, `# noqa`, atau `// eslint-disable-next-line`** — itu mengakali alat yang dibuat untuk melindungi kamu.
+Linters, type checkers, and analyzers exist to catch bugs before production. **Never disable them with `#[allow]`, `// @ts-ignore`, `# noqa`, or `// eslint-disable-next-line`** — you are bypassing a tool designed to protect you.
 
 ### What to do instead:
-- **Linter error** → perbaiki kodenya. Kalau kamu bisa suppress, kamu bisa fix.
-- **`clippy::too_many_arguments`** → extract parameter struct. Jangan `#[allow]`.
-- **`clippy::type_complexity`** → extract type alias. Jangan `#[allow]`.
-- **`@ts-ignore` / `@ts-expect-error`** → perbaiki type-nya. TypeScript strict mode harusnya gak perlu ini.
-- **`# noqa` (Python)** → perbaiki line length, import, atau kompleksitas.
-- **`eslint-disable-next-line`** → perbaiki pelanggarannya. Kalau rule-nya salah, nonaktifkan global dengan alasan.
+- **Linter error** → fix the code. If you can suppress it, you can fix it.
+- **`clippy::too_many_arguments`** → extract a parameter struct. Don't `#[allow]`.
+- **`clippy::type_complexity`** → extract a type alias. Don't `#[allow]`.
+- **`@ts-ignore` / `@ts-expect-error`** → fix the type. TypeScript strict mode should not need these.
+- **`# noqa` (Python)** → fix the line length, import order, or complexity.
+- **`eslint-disable-next-line`** → fix the violation. If the rule is wrong, disable it globally with a reason.
 
-### Satu-satunya pengecualian:
-- **False positive dari linter** — tapi harus dibuktikan, bukan ditebak. Tambah komentar `// lint false positive: <reason>`.
-- **Generated code** — kode hasil generate (protobuf, OpenAPI client) bisa di-exclude via config, bukan inline suppress.
-- **Migration bertahap** — kalau codebase besar, suppress dulu di level project config, target hapus <30 hari. Bukan inline per-line yang numpuk.
+### The only exceptions:
+- **False positive from linter** — must be proven, not guessed. Add comment `// lint false positive: <reason>`.
+- **Generated code** — protobuf, OpenAPI client, etc. can be excluded via config, not inline suppress.
+- **Phased migration** — for large codebases, suppress at project config level with a target to remove within 30 days. Not inline per-line suppressions that accumulate.
 
 ### Enforce in CI:
 ```bash
@@ -282,35 +282,34 @@ go vet ./...
 git commit --no-verify  # only for emergencies, not routine
 ```
 
-Lint yang di-skip adalah bug yang diundang. Kalau kamu bisa `#[allow]` itu, kamu juga bisa perbaiki itu.
+A suppressed lint is a bug invited into production. If you can `#[allow]` it, you can also fix it.
 
 ## 29. Never Assume — Show Evidence for Everything
 
-Jangan pernah nebak, ngira-ngira, atau asumsi. **Setiap klaim, saran, atau kode yang kamu hasilkan harus punya bukti atau dokumentasi.**
+Never guess, speculate, or assume. **Every claim, suggestion, or piece of code you produce must be backed by evidence or documentation.**
 
-### Aturan:
-1. **Kode yang kamu tulis** — harus berdasarkan kode yang sudah ada di codebase, dokumentasi resmi framework/library, atau output compiler/type-checker. Bukan "seingat saya" atau "dari training data."
-2. **File structure** — jangan nebak di mana file disimpan. Cari dulu (`grep`, `find`, glob). Kalau gak ketemu, tanya user.
-3. **API / function signature** — jangan nebak parameter atau return type. Baca kodenya langsung. Kalau library eksternal, cek dokumentasinya (Context7, web search, atau baca file `node_modules/` / `vendor/`).
-4. **Error / bug** — jangan tebak penyebabnya. Cari bukti: log error, stack trace, output test, atau kode yang jelas-jelas salah.
-5. **Config / environment** — jangan nebak value variable atau path. Cari file konfigurasi, `.env.example`, atau tanya user.
-6. **Dependency version** — jangan nebak versi. Cek `package.json`, `Cargo.toml`, `go.mod`, `requirements.txt`, `Cargo.lock`, dll.
-7. **Citing source** — kalau merujuk ke dokumentasi, sebut sumbernya: "per docs di `docs/add-new-app.md`" bukan "seperti yang saya tahu."
-8. **"Apa ini?" / "Bagaimana cara kerja X?"** — jangan jawab dari training data. Baca kodenya dulu (`grep -r`, baca file relevan), baru jawab berdasarkan kode yang sebenarnya.
+### Rules:
+1. **Code you write** — must be based on existing code in the codebase, official framework/library documentation, or compiler/type-checker output. Not "from what I remember" or "from training data."
+2. **File structure** — don't guess where a file lives. Search first (`grep`, `find`, glob). If not found, ask the user.
+3. **API / function signature** — don't guess parameters or return types. Read the actual source code. For external libraries, check documentation (Context7, web search, or inspect `node_modules/` / `vendor/`).
+4. **Error / bug** — don't guess the cause. Find evidence: error logs, stack traces, test output, or code that is clearly wrong.
+5. **Config / environment** — don't guess variable values or paths. Find config files, `.env.example`, or ask the user.
+6. **Dependency version** — don't guess versions. Check `package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, or lock files.
+7. **Citing sources** — when referencing documentation, name the source: "per docs in `docs/add-new-app.md`" not "as I know it."
+8. **"What is this?" / "How does X work?"** — don't answer from training data. Read the code first (`grep -r`, read relevant files), then answer based on actual code.
 
-### Kalau gak yakin:
-- **Cari dulu.** Jangan jawab dari hafalan. Kalau informasinya gak ada di codebase atau output tool, cari via web search.
-- **Tanya user.** Kalau udah nyari tapi gak ketemu, tanya. Jangan dibuat-buat.
-- **Akui keterbatasan.** "Saya gak yakin dengan X, tapi berdasarkan Y yang saya lihat..." lebih baik dari asumsi yang salah.
+### When uncertain:
+- **Search first.** Don't answer from memory. If the information isn't in the codebase or tool output, use web search.
+- **Ask the user.** If you've searched and can't find it, ask. Don't fabricate.
+- **Acknowledge limitations.** "I'm not sure about X, but based on Y which I found at..." is better than a confident wrong answer.
 
-### Contoh:
+### Examples:
 ```
-❌ "Sepertinya function ini return Promise<User>"
-✅ "Saya lihat di src/users/service.ts:42, function getUser return type-nya Promise<User>"
+❌ "I think this function returns Promise<User>"
+✅ "I can see at src/users/service.ts:42 that getUser's return type is Promise<User>"
 
-❌ "Mungkin config ada di .env"
-✅ "Saya cari .env dan gak ketemu. Ada .env.example — mungkin itu template-nya. Bisa dicek?"
+❌ "The config might be in .env"
+✅ "I searched for .env and didn't find one. There's a .env.example — maybe that's the template. Could you check?"
 
-❌ "Biasanya Dockerfile ada di root"
-✅ "Saya find untuk Dockerfile: infra/docker/hub.Dockerfile"
-```
+❌ "Dockerfiles are usually in the root"
+✅ "I found the Dockerfile at: infra/docker/hub.Dockerfile"
