@@ -1,5 +1,5 @@
 #!/bin/bash
-# hub-guide: inject best-practice skills into context at session start
+# hub-guide: inject best-practice skill content at session start
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -41,48 +41,65 @@ fi
 MANDATORY="engineering-principles clean-code clean-architecture testing error-handling security git-workflow api-design"
 SKILL_NAMES="${SKILL_NAMES#, }"
 
-# --- read skill content ---
-read_skill() {
-  local f="${PLUGIN_ROOT}/skills/${1}/SKILL.md"
-  [ -f "$f" ] && cat "$f" || echo ""
-}
+# --- build context and output via Python for reliable JSON ---
+python3 << PYEOF
+import json, os, sys
 
-# Summary header (visible in session)
-echo "📐 [hub-guide] detected: ${PROJECT_DIR}"
-echo "📐 mandatory: ${MANDATORY}"
-[ -n "$SKILL_NAMES" ] && echo "📐 active: ${SKILL_NAMES}"
-echo ""
+project_dir = """${PROJECT_DIR}"""
+mandatory = """${MANDATORY}"""
+skill_names = """${SKILL_NAMES}"""
+plugin_root = """${PLUGIN_ROOT}"""
 
-# ─────────────────────────────────────────────────────────────────
-# SKILL INJECTION — hub-guide best-practice rules
-# This content is loaded into context before any user interaction.
-# Claude MUST treat these as active skill instructions for every
-# code decision throughout this session.
-# ─────────────────────────────────────────────────────────────────
-echo "<EXTREMELY_IMPORTANT>"
-echo "You have the following hub-guide skills loaded and active. They apply to every code decision, review, and architecture discussion in this session — regardless of what language the user speaks."
+def read_skill(name):
+    path = os.path.join(plugin_root, "skills", name, "SKILL.md")
+    try:
+        with open(path) as f:
+            return f.read()
+    except:
+        return ""
 
-# Inject full MANDATORY skill content
-for skill in $MANDATORY; do
-  content=$(read_skill "$skill")
-  if [ -n "$content" ]; then
-    echo ""
-    echo "=== hub-guide:${skill} ==="
-    echo "$content"
-  fi
-done
+# Build summary
+summary = f"\U0001f4d0 [hub-guide] detected: {project_dir}\n\U0001f4d0 mandatory: {mandatory}"
+if skill_names:
+    summary += f"\n\U0001f4d0 active: {skill_names}"
+summary += "\n\U0001f4d0 When in doubt — ask instead of assuming."
+summary += "\n\U0001f4d0 Never assume — show evidence for everything."
+summary += "\n\U0001f4d0 All skills work regardless of your spoken language."
 
-# List detected skills (their content loads on demand via Skill tool)
-if [ -n "$SKILL_NAMES" ]; then
-  echo ""
-  echo "=== hub-guide:detected ==="
-  echo "The following skills are relevant to this project's tech stack."
-  echo "Load them with the Skill tool when their topics come up: ${SKILL_NAMES}"
-fi
+# Build skill content
+content_parts = []
+content_parts.append("<EXTREMELY_IMPORTANT>")
+content_parts.append("You have the following hub-guide skills loaded and active. They apply to every code decision, review, and architecture discussion in this session — regardless of what language the user speaks.")
 
-echo ""
-echo "For any skill not loaded above, use the Skill tool to load it."
-echo ""
-echo "IMPORTANT: Never assume or guess. Always find evidence in the codebase,"
-echo "documentation, or by asking the user. Show your sources."
-echo "</EXTREMELY_IMPORTANT>"
+for skill in mandatory.split():
+    c = read_skill(skill.strip())
+    content_parts.append(f"\n=== hub-guide:{skill} ===\n{c}")
+
+if skill_names:
+    content_parts.append(f"\n=== hub-guide:detected ===\nThe following skills are relevant to this project. If their topics come up, use the Skill tool to load them: {skill_names}")
+
+content_parts.append("\nIMPORTANT: Never assume or guess. Always find evidence in the codebase, documentation, or by asking the user. Show your sources.\n</EXTREMELY_IMPORTANT>")
+
+skill_content = "\n".join(content_parts)
+full_context = f"{summary}\n\n{skill_content}"
+
+# Output
+if os.environ.get("CLAUDE_PLUGIN_ROOT") and not os.environ.get("COPILOT_CLI"):
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "SessionStart",
+            "additionalContext": full_context
+        }
+    }
+    json.dump(output, sys.stdout, ensure_ascii=False)
+    print()
+else:
+    print(f"\U0001f4d0 [hub-guide] detected: {project_dir}")
+    print(f"\U0001f4d0 mandatory: {mandatory}")
+    if skill_names:
+        print(f"\U0001f4d0 active: {skill_names}")
+    print("\U0001f4d0 When in doubt — ask instead of assuming.")
+    print()
+    print(skill_content)
+PYEOF
+exit 0
