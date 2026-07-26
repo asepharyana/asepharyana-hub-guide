@@ -82,4 +82,7 @@ fi
 
 echo ""
 echo "For any skill not loaded above, use the Skill tool to load it."
+echo ""
+echo "IMPORTANT: Never assume or guess. Always find evidence in the codebase,"
+echo "documentation, or by asking the user. Show your sources."
 echo "</EXTREMELY_IMPORTANT>"

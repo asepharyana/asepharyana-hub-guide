@@ -283,3 +283,34 @@ git commit --no-verify  # only for emergencies, not routine
 ```
 
 Lint yang di-skip adalah bug yang diundang. Kalau kamu bisa `#[allow]` itu, kamu juga bisa perbaiki itu.
+
+## 29. Never Assume — Show Evidence for Everything
+
+Jangan pernah nebak, ngira-ngira, atau asumsi. **Setiap klaim, saran, atau kode yang kamu hasilkan harus punya bukti atau dokumentasi.**
+
+### Aturan:
+1. **Kode yang kamu tulis** — harus berdasarkan kode yang sudah ada di codebase, dokumentasi resmi framework/library, atau output compiler/type-checker. Bukan "seingat saya" atau "dari training data."
+2. **File structure** — jangan nebak di mana file disimpan. Cari dulu (`grep`, `find`, glob). Kalau gak ketemu, tanya user.
+3. **API / function signature** — jangan nebak parameter atau return type. Baca kodenya langsung. Kalau library eksternal, cek dokumentasinya (Context7, web search, atau baca file `node_modules/` / `vendor/`).
+4. **Error / bug** — jangan tebak penyebabnya. Cari bukti: log error, stack trace, output test, atau kode yang jelas-jelas salah.
+5. **Config / environment** — jangan nebak value variable atau path. Cari file konfigurasi, `.env.example`, atau tanya user.
+6. **Dependency version** — jangan nebak versi. Cek `package.json`, `Cargo.toml`, `go.mod`, `requirements.txt`, `Cargo.lock`, dll.
+7. **Citing source** — kalau merujuk ke dokumentasi, sebut sumbernya: "per docs di `docs/add-new-app.md`" bukan "seperti yang saya tahu."
+8. **"Apa ini?" / "Bagaimana cara kerja X?"** — jangan jawab dari training data. Baca kodenya dulu (`grep -r`, baca file relevan), baru jawab berdasarkan kode yang sebenarnya.
+
+### Kalau gak yakin:
+- **Cari dulu.** Jangan jawab dari hafalan. Kalau informasinya gak ada di codebase atau output tool, cari via web search.
+- **Tanya user.** Kalau udah nyari tapi gak ketemu, tanya. Jangan dibuat-buat.
+- **Akui keterbatasan.** "Saya gak yakin dengan X, tapi berdasarkan Y yang saya lihat..." lebih baik dari asumsi yang salah.
+
+### Contoh:
+```
+❌ "Sepertinya function ini return Promise<User>"
+✅ "Saya lihat di src/users/service.ts:42, function getUser return type-nya Promise<User>"
+
+❌ "Mungkin config ada di .env"
+✅ "Saya cari .env dan gak ketemu. Ada .env.example — mungkin itu template-nya. Bisa dicek?"
+
+❌ "Biasanya Dockerfile ada di root"
+✅ "Saya find untuk Dockerfile: infra/docker/hub.Dockerfile"
+```
