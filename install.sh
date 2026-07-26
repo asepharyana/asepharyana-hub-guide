@@ -20,8 +20,8 @@ for arg in "$@"; do
   esac
 done
 
-echo "hub-guide installer"
-echo "  target: ${SKILLS_DIR}/hub-guide/"
+echo "code-guide installer"
+echo "  target: ${SKILLS_DIR}/code-guide/"
 echo "  mode: $([ "$LINK_MODE" = true ] && echo 'symlink' || echo 'copy')"
 
 mkdir -p "$SKILLS_DIR"

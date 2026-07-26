@@ -3,7 +3,7 @@
     "Stop": [{
       "hooks": [{
         "type": "prompt",
-        "prompt": "Check if hub-guide MANDATORY skills are being applied where relevant: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. If the assistant is using evidence from codebase/docs instead of guessing, and is not violating any of these principles, respond: {\"ok\": true}. Only respond {\"ok\": false, \"reason\": \"[hub-guide] Apply MANDATORY skills: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design.\"} if the assistant is clearly guessing or violating these principles."
+        "prompt": "Check if code-guide MANDATORY skills are being applied where relevant: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design. If the assistant is using evidence from codebase/docs instead of guessing, and is not violating any of these principles, respond: {\"ok\": true}. Only respond {\"ok\": false, \"reason\": \"[code-guide] Apply MANDATORY skills: engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design.\"} if the assistant is clearly guessing or violating these principles."
       }]
     }]
   }
