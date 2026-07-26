@@ -30,4 +30,4 @@ if ($Link) {
 
 Write-Host ""
 Write-Host "Done. Restart Claude Code or run /reload."
-Write-Host "Skills auto-trigger. Hooks auto-load from hooks/hooks.json."
+Write-Host "Skills auto-trigger. engineering-principles skill auto-loads at session start."

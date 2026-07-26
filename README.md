@@ -16,11 +16,9 @@ A Claude Code plugin serving as a complete engineering guide for **all programmi
 
 Skills activate automatically when Claude detects relevant context (language, framework, topic).
 
-### Hooks for Auto-Activation
+### Auto-Loaded Skill
 
-| Hook | Trigger | What It Does |
-|------|---------|--------------|
-| **Stop** | Before stopping | Verifies mandatory skills are being applied (engineering-principles, clean-code, clean-architecture, testing, error-handling, security, git-workflow, api-design) |
+`engineering-principles` (29 principles) auto-loads at every session start — correctness, YAGNI, KISS, DRY, never assume, never suppress lints, show evidence, and more. This ensures foundational rules are always active.
 
 ## Installation
 
@@ -52,9 +50,9 @@ code-guide/
 ├── .claude-plugin/
 │   └── plugin.json           # Plugin manifest
 ├── hooks/
-│   └── hooks.json            # Hook configuration (Stop prompt)
+│   └── hooks.json            # Reserved for future use
 ├── skills/
-│   ├── clean-code/            # 23 more skill directories
+│   ├── clean-code/           # 24 skill directories
 │   └── ...
 └── README.md
 ```
@@ -66,4 +64,4 @@ Skills are in `skills/<name>/SKILL.md` format (modern Claude Code plugin convent
 - **Frontmatter** — `name` and `description` with trigger context
 - **Lean body** — key rules, examples, and anti-patterns
 
-The Stop hook injects reminders when mandatory skills aren't being applied.
+The `engineering-principles` skill auto-loads via plugin.json's `sessionStart.skill` field (same pattern as Superpowers' `using-superpowers`).
