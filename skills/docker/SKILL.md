@@ -76,12 +76,11 @@ networks:
     external: true
 ```
 
-### Typical Services Layout (this repo)
-- **Redis:** `shared.yml` — always first
-- **NATS:** `nats.yml` — JetStream-enabled
-- **Dapr:** `dapr.yml` — placement service
-- **Traefik:** `traefik.yml` — reverse proxy
-- **App + Sidecar:** `app.yml` — service + daprd sidecar
+### Typical Docker Compose Order
+- **Data layer:** `db.yml`, `redis.yml` — stateful services first
+- **Messaging:** `nats.yml`, `rabbitmq.yml` — message brokers
+- **Infrastructure:** `traefik.yml`, `nginx.yml` — reverse proxy
+- **Application:** `app.yml` — service containers
 
 ## Security
 
@@ -99,17 +98,16 @@ networks:
 sha-<short-sha>   # Immutable — for deterministic rollbacks
 latest            # Mutable — convenience
 
-# Example (from this repo's CI)
-ghcr.io/asepharyana/asepharyana-hub/<service>:sha-a1b2c3d
-ghcr.io/asepharyana/asepharyana-hub/<service>:latest
+# Example
+ghcr.io/myorg/myproject/<service>:sha-a1b2c3d
+ghcr.io/myorg/myproject/<service>:latest
 ```
 
 ## Networking
 
-- **All containers** join `app-shared-net` (external Docker bridge).
+- **All containers** join the same Docker network (external bridge).
 - **DNS resolution** via Docker DNS (container name = hostname).
-- **Cross-VPS** via Tailscale (`100.64.0.0/10`).
-- **Expose only needed ports** — Traefik handles external traffic on port 443.
+- **Expose only needed ports** — reverse proxy handles external traffic on port 443.
 
 ## Debugging
 

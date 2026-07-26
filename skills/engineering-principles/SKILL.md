@@ -312,4 +312,4 @@ Never guess, speculate, or assume. **Every claim, suggestion, or piece of code y
 ✅ "I searched for .env and didn't find one. There's a .env.example — maybe that's the template. Could you check?"
 
 ❌ "Dockerfiles are usually in the root"
-✅ "I found the Dockerfile at: infra/docker/hub.Dockerfile"
+✅ "I found the Dockerfile at: infra/docker/app.Dockerfile"

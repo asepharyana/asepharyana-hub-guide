@@ -1,7 +1,7 @@
 #!/bin/bash
-# setup-hooks.sh — Configure hub-guide hooks in Claude Code
+# setup-hooks.sh — Configure code-guide hooks in Claude Code
 #
-# Adds hub-guide hooks to ~/.claude/settings.local.json
+# Adds code-guide hooks to ~/.claude/settings.local.json
 # This allows Claude to auto-detect your project and suggest relevant skills.
 #
 # Usage: ./setup-hooks.sh
@@ -11,7 +11,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SETTINGS_FILE="${HOME}/.claude/settings.local.json"
 
-echo "📐 hub-guide hooks setup"
+echo "code-guide hooks setup"
 
 python3 << PYEOF
 import json, os
@@ -51,8 +51,8 @@ os.makedirs(os.path.dirname(settings_file), exist_ok=True)
 with open(settings_file, 'w') as f:
     json.dump(cfg, f, indent=2)
 
-print(f"✅ Hooks configured in {settings_file}")
+print(f"Hooks configured in {settings_file}")
 PYEOF
 
 echo ""
-echo "   Restart Claude Code or run /reload to activate hooks."
+echo "Restart Claude Code or run /reload to activate hooks."

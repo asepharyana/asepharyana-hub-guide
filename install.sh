@@ -1,9 +1,9 @@
 #!/bin/bash
-# install.sh — hub-guide installer for Claude Code
-# Installs the entire hub-guide directory as one unit into ~/.claude/skills/.
+# install.sh — code-guide installer for Claude Code
+# Installs the entire code-guide directory as one unit into ~/.claude/skills/.
 # Skills auto-discover, hooks auto-load from hooks/hooks.json.
 # Usage:
-#   ./install.sh              # Copy hub-guide to ~/.claude/skills/
+#   ./install.sh              # Copy code-guide to ~/.claude/skills/
 #   ./install.sh --link       # Symlink (edits live)
 # Requires: Claude Code
 
@@ -25,7 +25,7 @@ echo "  target: ${SKILLS_DIR}/code-guide/"
 echo "  mode: $([ "$LINK_MODE" = true ] && echo 'symlink' || echo 'copy')"
 
 mkdir -p "$SKILLS_DIR"
-DST="${SKILLS_DIR}/hub-guide"
+DST="${SKILLS_DIR}/code-guide"
 
 if [ "$LINK_MODE" = true ]; then
   rm -rf "$DST"

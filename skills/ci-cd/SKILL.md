@@ -55,16 +55,16 @@ jobs:
   build:
     strategy:
       matrix:
-        service: [scraper, hub]
+        service: [frontend, api]
     steps:
       - uses: actions/checkout@v4
       - run: |
           docker build \
             -f infra/docker/${{ matrix.service }}.Dockerfile \
-            -t ghcr.io/.../${{ matrix.service }}:sha-${{ github.sha }} \
-            -t ghcr.io/.../${{ matrix.service }}:latest \
+            -t ghcr.io/myorg/myproject/${{ matrix.service }}:sha-${{ github.sha }} \
+            -t ghcr.io/myorg/myproject/${{ matrix.service }}:latest \
             .
-      - run: docker push --all-tags ghcr.io/.../${{ matrix.service }}
+      - run: docker push --all-tags ghcr.io/myorg/myproject/${{ matrix.service }}
 ```
 
 **Deploy (after build)**
@@ -101,7 +101,7 @@ jobs:
   build:
     strategy:
       matrix:
-        service: [scraper, hub, api]
+        service: [frontend, api, worker]
       fail-fast: false  # Let others complete even if one fails
 ```
 
@@ -149,10 +149,10 @@ secrets:
 6. **Security scan** (<5 min) — CodeQL, dependency audit, secret scan
 7. **Deploy** (<2 min) — SSH, pull, restart
 
-## Deployment (this repo's pattern)
+## Deployment Pattern
 
-1. SSH to VPS (`orangevps`)
-2. Pull latest images from GHCR
+1. SSH to deployment target
+2. Pull latest images from container registry
 3. Restart specific container (not all)
 4. Health check after restart
 5. Rollback if health check fails

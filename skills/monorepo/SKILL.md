@@ -19,8 +19,8 @@ description: Monorepo best practices — tooling, workspace configuration, share
 
 ```
 ├── apps/
-│   ├── hub/            # Next.js app (submodule)
-│   └── scraper/        # Rust API (submodule)
+│   ├── app1/           # Application (submodule)
+│   └── app2/           # Another application (submodule)
 ├── packages/           # Shared libraries (when not submodules)
 ├── infra/              # Shared infra config
 ├── pnpm-workspace.yaml
@@ -61,13 +61,13 @@ pnpm -r run build
 - **Explicit `dependencies`** — never rely on hoisting.
 - **Lock file** (`pnpm-lock.yaml`) committed — immutable installs.
 
-## Git Submodules (this repo's pattern)
+## Git Submodules
 
 ```
-asepharyana-hub/
+my-monorepo/
 ├── apps/
-│   ├── hub/          → asepharyana/asepharyana-hub-hub
-│   └── scraper/      → asepharyana/asepharyana-hub-scraper
+│   ├── app1/          → org/app1-repo
+│   └── app2/          → org/app2-repo
 ```
 
 ### Submodule Workflow
@@ -79,8 +79,8 @@ git submodule update --init --recursive
 git submodule foreach git pull origin main
 
 # Update one submodule
-cd apps/hub && git checkout main && git pull
-cd ../.. && git add apps/hub && git commit -m "chore(deps): update hub submodule"
+cd apps/app1 && git checkout main && git pull
+cd ../.. && git add apps/app1 && git commit -m "chore(deps): update app1 submodule"
 git push
 ```
 
@@ -107,8 +107,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'apps/hub/**'
-      - 'infra/docker/hub.Dockerfile'
+      - 'apps/app1/**'
+      - 'infra/docker/app1.Dockerfile'
 ```
 
 ### Affected Commands (Nx/Turborepo/Moon)
