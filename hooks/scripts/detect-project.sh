@@ -9,7 +9,6 @@ SKILL_NAMES=""
 
 has_dep() { local n="$1"; grep -q "\"$n\"" package.json 2>/dev/null; }
 
-# --- project detection ---
 if [ -f "pnpm-workspace.yaml" ] || [ -f "lerna.json" ] || [ -f "nx.json" ] || [ -f "rush.json" ] || [ -f "turborepo.json" ]; then
   SKILL_NAMES="$SKILL_NAMES, monorepo"
 fi
@@ -41,11 +40,8 @@ fi
 MANDATORY="engineering-principles clean-code clean-architecture testing error-handling security git-workflow api-design"
 SKILL_NAMES="${SKILL_NAMES#, }"
 
-# --- output: plain text only, no emoji, no JSON ---
 echo "[hub-guide] session: ${PROJECT_DIR}"
 echo "[hub-guide] mandatory: ${MANDATORY}"
 if [ -n "$SKILL_NAMES" ]; then
   echo "[hub-guide] active: ${SKILL_NAMES}"
 fi
-echo ""
-echo "EXTREMELY_IMPORTANT: The hub-guide skills listed above are loaded and active. They apply to every code decision in this session. Never suppress lints. Never assume — show evidence. All skills work regardless of spoken language."
