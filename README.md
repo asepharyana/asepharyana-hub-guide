@@ -14,11 +14,11 @@ A Claude Code plugin serving as a complete engineering guide for **all programmi
 | **Infrastructure** | docker, ci-cd, monitoring |
 | **Monorepo** | monorepo (patterns + submodules + workspace tooling) |
 
-Skills activate automatically when Claude detects relevant context (language, framework, topic).
+Skills activate automatically when Claude detects relevant context.
 
-### Auto-Loaded Skill
+### SessionStart Hook
 
-`engineering-principles` (29 principles) auto-loads at every session start — correctness, YAGNI, KISS, DRY, never assume, never suppress lints, show evidence, and more. This ensures foundational rules are always active.
+A SessionStart command hook (identical to Superpowers' pattern) injects the full `engineering-principles` skill content into context at every session start — all 29 principles covering correctness, YAGNI, KISS, DRY, never assume (show evidence), never suppress lints, root-cause fixes, and more. These rules are active from turn 1.
 
 ## Installation
 
@@ -50,18 +50,18 @@ code-guide/
 ├── .claude-plugin/
 │   └── plugin.json           # Plugin manifest
 ├── hooks/
-│   └── hooks.json            # Reserved for future use
+│   ├── hooks.json            # SessionStart command hook config
+│   ├── run-hook.cmd          # Cross-platform polyglot wrapper
+│   └── session-start         # Injects engineering-principles into context
 ├── skills/
-│   ├── clean-code/           # 24 skill directories
-│   └── ...
+│   ├── engineering-principles/  # Auto-injected at session start
+│   ├── clean-code/
+│   ├── ...
 └── README.md
 ```
 
-## Development
+## How It Works
 
-Skills are in `skills/<name>/SKILL.md` format (modern Claude Code plugin convention). Each skill includes:
-
-- **Frontmatter** — `name` and `description` with trigger context
-- **Lean body** — key rules, examples, and anti-patterns
-
-The `engineering-principles` skill auto-loads via plugin.json's `sessionStart.skill` field (same pattern as Superpowers' `using-superpowers`).
+- **SessionStart hook** runs `hooks/run-hook.cmd session-start` which reads `skills/engineering-principles/SKILL.md` and injects it into the conversation context wrapped in `<EXTREMELY_IMPORTANT>` tags (same pattern as Superpowers' `using-superpowers`).
+- All 24 skills are auto-discovered from the `skills/` directory.
+- Skills activate when Claude detects relevant context — no manual commands needed.

@@ -1,7 +1,7 @@
 #!/bin/bash
 # install.sh — code-guide installer for Claude Code
 # Installs the entire code-guide directory as one unit into ~/.claude/skills/.
-# Skills auto-discover, engineering-principles auto-loads at session start.
+# Skills auto-discover. SessionStart hook injects engineering-principles into context.
 # Usage:
 #   ./install.sh              # Copy code-guide to ~/.claude/skills/
 #   ./install.sh --link       # Symlink (edits live)
@@ -41,4 +41,4 @@ if [ "$LINK_MODE" = true ]; then
 fi
 echo ""
 echo "Done. Restart Claude Code or run /reload."
-echo "Skills auto-trigger. engineering-principles skill auto-loads at session start."
+echo "Skills auto-trigger. SessionStart hook injects engineering-principles into context."

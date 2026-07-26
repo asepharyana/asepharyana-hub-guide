@@ -7,8 +7,5 @@
     "email": "asepharyana@users.noreply.github.com"
   },
   "keywords": ["best-practice", "clean-code", "engineering-guide", "programming-standards", "architecture"],
-  "skills": "./skills/",
-  "sessionStart": {
-    "skill": "engineering-principles"
-  }
+  "skills": "./skills/"
 }

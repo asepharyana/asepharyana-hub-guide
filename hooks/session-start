@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# SessionStart hook for code-guide plugin.
+# Reads engineering-principles SKILL.md and injects it as context
+# so the 29 foundational principles are always active from turn 1.
+#
+# Pattern: identical to Superpowers' session-start hook
+# which injects skills/using-superpowers/SKILL.md content.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+skill_content=$(cat "${PLUGIN_ROOT}/skills/engineering-principles/SKILL.md" 2>&1 || echo "Error reading engineering-principles skill")
+
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+escaped=$(escape_for_json "$skill_content")
+context="<EXTREMELY_IMPORTANT>\nYou have the code-guide plugin loaded. Below is the full content of the 'code-guide:engineering-principles' skill — the 29 foundational rules that apply to every coding decision:\n\n${escaped}\n</EXTREMELY_IMPORTANT>"
+
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$context"
+else
+  printf '{"additionalContext":"%s"}\n' "$context"
+fi
+
+exit 0
